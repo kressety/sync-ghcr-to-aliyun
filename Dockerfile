@@ -4,12 +4,16 @@ FROM ubuntu:22.04
 # 设置非交互式安装，避免安装过程中的提示
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 安装必要的工具：skopeo 和 jq
+# 安装必要的工具：skopeo、jq 和 ca-certificates
 RUN apt-get update && apt-get install -y \
     skopeo \
     jq \
+    ca-certificates \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# 更新 CA 证书
+RUN update-ca-certificates
 
 # 创建工作目录
 WORKDIR /app
